@@ -1,0 +1,1447 @@
+basePath: /api/v1
+definitions:
+  apperror.Code:
+    enum:
+    - not_found
+    - conflict
+    - validation
+    - unauthorized
+    - forbidden
+    - internal
+    - invalid_state
+    - unavailable
+    type: string
+    x-enum-varnames:
+    - CodeNotFound
+    - CodeConflict
+    - CodeValidation
+    - CodeUnauthorized
+    - CodeForbidden
+    - CodeInternal
+    - CodeInvalidState
+    - CodeUnavailable
+  batchimport.BatchError:
+    properties:
+      error:
+        type: string
+      index:
+        type: integer
+    type: object
+  batchimport.ImportEventsItem:
+    properties:
+      cover_image:
+        type: string
+      description:
+        type: string
+      is_public:
+        type: boolean
+      max_participants:
+        type: integer
+      organizer_id:
+        type: string
+      status:
+        type: string
+      title:
+        type: string
+    type: object
+  batchimport.ImportTicketsItem:
+    properties:
+      amount_paid:
+        type: string
+      buyer_id:
+        type: string
+      purchase_date:
+        type: string
+      qr_code:
+        type: string
+      status:
+        type: string
+      ticket_type_id:
+        type: string
+    type: object
+  batchimport.ImportUsersItem:
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      password_hash:
+        type: string
+      phone:
+        type: string
+      role:
+        type: string
+    type: object
+  batchimport.Result:
+    properties:
+      errors:
+        items:
+          $ref: '#/definitions/batchimport.BatchError'
+        type: array
+      failed:
+        type: integer
+      success:
+        type: integer
+      total:
+        type: integer
+    type: object
+  entity.UserRole:
+    enum:
+    - admin
+    - organizer
+    - attendee
+    type: string
+    x-enum-varnames:
+    - UserRoleAdmin
+    - UserRoleOrganizer
+    - UserRoleAttendee
+  handler.AttendanceRowSwagger:
+    properties:
+      attendanceRate:
+        type: string
+      sold:
+        format: int64
+        type: integer
+      ticketType:
+        type: string
+      used:
+        format: int64
+        type: integer
+    type: object
+  handler.CreateEventRequest:
+    properties:
+      cover_image:
+        type: string
+      description:
+        type: string
+      is_public:
+        type: boolean
+      max_participants:
+        type: integer
+      organizer_id:
+        type: string
+      status:
+        type: string
+      title:
+        type: string
+    required:
+    - organizer_id
+    - status
+    - title
+    type: object
+  handler.CreateRoomRequest:
+    properties:
+      capacity:
+        type: integer
+      equipment:
+        additionalProperties: {}
+        type: object
+      floor:
+        type: integer
+      hourly_rate:
+        type: string
+      is_available:
+        type: boolean
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  handler.CreateUserRequest:
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      password_hash:
+        type: string
+      phone:
+        type: string
+      role:
+        type: string
+    required:
+    - email
+    - full_name
+    - password_hash
+    - role
+    type: object
+  handler.CreateVenueRequest:
+    properties:
+      address:
+        type: string
+      capacity:
+        type: integer
+      city:
+        type: string
+      contact_email:
+        type: string
+      contact_phone:
+        type: string
+      country:
+        type: string
+      name:
+        type: string
+      website:
+        type: string
+    required:
+    - address
+    - city
+    - name
+    type: object
+  handler.ErrorResponse:
+    properties:
+      code:
+        $ref: '#/definitions/apperror.Code'
+      message:
+        type: string
+    type: object
+  handler.EventSwagger:
+    properties:
+      coverImage:
+        type: string
+      createdAt:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      isPublic:
+        type: boolean
+      maxParticipants:
+        type: integer
+      organizerID:
+        type: string
+      status:
+        $ref: '#/definitions/valueobject.EventStatus'
+      title:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  handler.IDResponse:
+    properties:
+      id:
+        type: string
+    type: object
+  handler.PopularEventRowSwagger:
+    properties:
+      eventID:
+        type: string
+      registrations:
+        format: int64
+        type: integer
+      ticketsSold:
+        format: int64
+        type: integer
+      title:
+        type: string
+    type: object
+  handler.PurchaseTicketRequest:
+    properties:
+      amount_paid:
+        type: string
+      currency:
+        type: string
+      qr_code:
+        type: string
+      ticket_type_id:
+        type: string
+    required:
+    - amount_paid
+    - qr_code
+    - ticket_type_id
+    type: object
+  handler.RoomSwagger:
+    properties:
+      capacity:
+        type: integer
+      createdAt:
+        type: string
+      equipment:
+        additionalProperties: {}
+        type: object
+      floor:
+        type: integer
+      hourlyRate:
+        type: string
+      id:
+        type: string
+      isAvailable:
+        type: boolean
+      name:
+        type: string
+      updatedAt:
+        type: string
+      venueID:
+        type: string
+    type: object
+  handler.SalesReportRowSwagger:
+    properties:
+      eventID:
+        type: string
+      eventTitle:
+        type: string
+      revenue:
+        type: string
+      ticketsSold:
+        format: int64
+        type: integer
+      uniqueBuyers:
+        format: int64
+        type: integer
+    type: object
+  handler.TicketIDResponse:
+    properties:
+      ticket_id:
+        type: string
+    type: object
+  handler.TicketSwagger:
+    properties:
+      amountPaid:
+        $ref: '#/definitions/valueobject.Money'
+      buyerID:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      purchaseDate:
+        type: string
+      qrcode:
+        type: string
+      status:
+        $ref: '#/definitions/valueobject.TicketStatus'
+      ticketTypeID:
+        type: string
+      updatedAt:
+        type: string
+      usedAt:
+        type: string
+    type: object
+  handler.UpdateEventRequest:
+    properties:
+      cover_image:
+        type: string
+      description:
+        type: string
+      is_public:
+        type: boolean
+      max_participants:
+        type: integer
+      status:
+        type: string
+      title:
+        type: string
+    required:
+    - status
+    - title
+    type: object
+  handler.UpdateTicketStatusRequest:
+    properties:
+      status:
+        type: string
+    required:
+    - status
+    type: object
+  handler.UpdateUserRequest:
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      is_active:
+        type: boolean
+      password_hash:
+        type: string
+      phone:
+        type: string
+      role:
+        type: string
+    required:
+    - email
+    - full_name
+    - password_hash
+    - role
+    type: object
+  handler.UpdateVenueRequest:
+    properties:
+      address:
+        type: string
+      capacity:
+        type: integer
+      city:
+        type: string
+      contact_email:
+        type: string
+      contact_phone:
+        type: string
+      country:
+        type: string
+      is_active:
+        type: boolean
+      name:
+        type: string
+      website:
+        type: string
+    required:
+    - address
+    - city
+    - name
+    type: object
+  handler.UserSwagger:
+    properties:
+      createdAt:
+        type: string
+      email:
+        type: string
+      fullName:
+        type: string
+      id:
+        type: string
+      isActive:
+        type: boolean
+      passwordHash:
+        type: string
+      phone:
+        type: string
+      role:
+        $ref: '#/definitions/entity.UserRole'
+      updatedAt:
+        type: string
+    type: object
+  handler.VenueSwagger:
+    properties:
+      address:
+        type: string
+      capacity:
+        type: integer
+      city:
+        type: string
+      contactEmail:
+        type: string
+      contactPhone:
+        type: string
+      country:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      isActive:
+        type: boolean
+      name:
+        type: string
+      updatedAt:
+        type: string
+      website:
+        type: string
+    type: object
+  handler.importEventsRequest:
+    properties:
+      continue_on_error:
+        type: boolean
+      items:
+        items:
+          $ref: '#/definitions/batchimport.ImportEventsItem'
+        type: array
+    required:
+    - items
+    type: object
+  handler.importTicketsRequest:
+    properties:
+      continue_on_error:
+        type: boolean
+      items:
+        items:
+          $ref: '#/definitions/batchimport.ImportTicketsItem'
+        type: array
+    required:
+    - items
+    type: object
+  handler.importUsersRequest:
+    properties:
+      continue_on_error:
+        type: boolean
+      items:
+        items:
+          $ref: '#/definitions/batchimport.ImportUsersItem'
+        type: array
+    required:
+    - items
+    type: object
+  valueobject.EventStatus:
+    enum:
+    - draft
+    - published
+    - cancelled
+    - completed
+    type: string
+    x-enum-varnames:
+    - EventStatusDraft
+    - EventStatusPublished
+    - EventStatusCancelled
+    - EventStatusCompleted
+  valueobject.Money:
+    properties:
+      amount:
+        type: number
+    type: object
+  valueobject.TicketStatus:
+    enum:
+    - paid
+    - refunded
+    - void
+    - used
+    type: string
+    x-enum-varnames:
+    - TicketStatusPaid
+    - TicketStatusRefunded
+    - TicketStatusVoid
+    - TicketStatusUsed
+host: localhost:8080
+info:
+  contact: {}
+  description: 'Система управления мероприятиями: события, площадки, билеты, отчёты,
+    аудит.'
+  title: Time2Meet API
+  version: 0.1.0
+paths:
+  /analytics/popular-events:
+    get:
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Days
+        in: query
+        name: days
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handler.PopularEventRowSwagger'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Популярные мероприятия
+      tags:
+      - analytics
+  /batch/import/events:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID (UUID) for audit
+        in: header
+        name: X-User-Id
+        type: string
+      - description: Пакет мероприятий
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handler.importEventsRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/batchimport.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Батч-импорт мероприятий
+      tags:
+      - batch
+  /batch/import/tickets:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID (UUID) for audit
+        in: header
+        name: X-User-Id
+        type: string
+      - description: Пакет билетов
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handler.importTicketsRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/batchimport.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Батч-импорт билетов
+      tags:
+      - batch
+  /batch/import/users:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID (UUID) for audit
+        in: header
+        name: X-User-Id
+        type: string
+      - description: Пакет пользователей
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handler.importUsersRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/batchimport.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Батч-импорт пользователей
+      tags:
+      - batch
+  /events:
+    get:
+      parameters:
+      - description: Organizer ID (UUID)
+        in: query
+        name: organizer_id
+        type: string
+      - description: Status
+        in: query
+        name: status
+        type: string
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handler.EventSwagger'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Список мероприятий
+      tags:
+      - events
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Мероприятие
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CreateEventRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handler.IDResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Создать мероприятие
+      tags:
+      - events
+  /events/{id}:
+    delete:
+      parameters:
+      - description: Event ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Удалить мероприятие
+      tags:
+      - events
+    get:
+      parameters:
+      - description: Event ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.EventSwagger'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Получить мероприятие по id
+      tags:
+      - events
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Event ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Поля мероприятия
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handler.UpdateEventRequest'
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Обновить мероприятие
+      tags:
+      - events
+  /events/{id}/cancel:
+    post:
+      parameters:
+      - description: Event ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Отменить мероприятие
+      tags:
+      - events
+  /reports/attendance:
+    get:
+      parameters:
+      - description: Event ID (UUID)
+        in: query
+        name: event_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handler.AttendanceRowSwagger'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Статистика посещаемости по мероприятию
+      tags:
+      - reports
+  /reports/sales:
+    get:
+      parameters:
+      - description: Start date (YYYY-MM-DD)
+        in: query
+        name: start
+        required: true
+        type: string
+      - description: End date (YYYY-MM-DD)
+        in: query
+        name: end
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handler.SalesReportRowSwagger'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Отчёт по продажам
+      tags:
+      - reports
+  /tickets:
+    get:
+      parameters:
+      - description: Buyer ID (UUID)
+        in: query
+        name: buyer_id
+        required: true
+        type: string
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handler.TicketSwagger'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Список билетов по покупателю
+      tags:
+      - tickets
+  /tickets/{id}:
+    delete:
+      parameters:
+      - description: Ticket ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Удалить билет
+      tags:
+      - tickets
+    get:
+      parameters:
+      - description: Ticket ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.TicketSwagger'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Получить билет по id
+      tags:
+      - tickets
+  /tickets/{id}/status:
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: Ticket ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Статус
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handler.UpdateTicketStatusRequest'
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Обновить статус билета
+      tags:
+      - tickets
+  /tickets/{id}/validate:
+    post:
+      parameters:
+      - description: User ID (UUID) for audit
+        in: header
+        name: X-User-Id
+        required: true
+        type: string
+      - description: Ticket ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Валидация (использование) билета
+      tags:
+      - tickets
+  /tickets/purchase:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID (UUID) for audit
+        in: header
+        name: X-User-Id
+        type: string
+      - description: Покупка
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handler.PurchaseTicketRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handler.TicketIDResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Купить билет (транзакция)
+      tags:
+      - tickets
+  /users:
+    get:
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handler.UserSwagger'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Список пользователей
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Пользователь
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handler.IDResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Создать пользователя
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      parameters:
+      - description: User ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Удалить пользователя
+      tags:
+      - users
+    get:
+      parameters:
+      - description: User ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.UserSwagger'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Получить пользователя по id
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Поля пользователя
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handler.UpdateUserRequest'
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Обновить пользователя
+      tags:
+      - users
+  /venues:
+    get:
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handler.VenueSwagger'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Список площадок
+      tags:
+      - venues
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Площадка
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CreateVenueRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handler.IDResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Создать площадку
+      tags:
+      - venues
+  /venues/{id}:
+    delete:
+      parameters:
+      - description: Venue ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Удалить площадку
+      tags:
+      - venues
+    get:
+      parameters:
+      - description: Venue ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.VenueSwagger'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Получить площадку по id
+      tags:
+      - venues
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Venue ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Поля площадки
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handler.UpdateVenueRequest'
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Обновить площадку
+      tags:
+      - venues
+  /venues/{id}/rooms:
+    get:
+      parameters:
+      - description: Venue ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handler.RoomSwagger'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Список помещений площадки
+      tags:
+      - venues
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Venue ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Помещение
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CreateRoomRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handler.IDResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Создать помещение на площадке
+      tags:
+      - venues
+schemes:
+- http
+swagger: "2.0"
