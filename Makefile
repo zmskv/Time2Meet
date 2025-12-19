@@ -1,5 +1,20 @@
 .PHONY: run build test swag
 
+ifneq (,$(wildcard .env))
+    include .env
+    export
+endif
+
+MIGRATE=migrate -path ./migrations -database "postgres://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?sslmode=$(DB_SSLMODE)"
+
+.PHONY: migrate-up
+migrate-up:
+	$(MIGRATE) up
+
+.PHONY: migrate-down
+migrate-down:
+	$(MIGRATE) down
+
 run:
 	go run ./cmd/api
 
