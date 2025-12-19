@@ -1,5 +1,3 @@
-BEGIN;
-
 CREATE OR REPLACE VIEW v_event_summary AS
 SELECT
   e.id AS event_id,
@@ -53,5 +51,4 @@ LEFT JOIN registrations r ON r.user_id = u.id
 LEFT JOIN tickets t ON t.buyer_id = u.id
 GROUP BY u.id, u.full_name, u.role;
 
-COMMIT;
 

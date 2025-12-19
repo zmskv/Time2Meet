@@ -1,5 +1,3 @@
-BEGIN;
-
 -- Scalar: total revenue by event (paid+used)
 CREATE OR REPLACE FUNCTION calculate_event_revenue(p_event_id UUID)
 RETURNS NUMERIC(14,2)
@@ -160,5 +158,4 @@ AS $$
   ORDER BY tt.name;
 $$;
 
-COMMIT;
 

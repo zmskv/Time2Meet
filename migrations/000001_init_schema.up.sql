@@ -1,5 +1,3 @@
-BEGIN;
-
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 -- Core tables
@@ -229,5 +227,4 @@ CREATE TABLE IF NOT EXISTS audit_log (
         ON UPDATE CASCADE ON DELETE SET NULL
 );
 
-COMMIT;
 

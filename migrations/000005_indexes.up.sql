@@ -1,5 +1,3 @@
-BEGIN;
-
 -- WHERE/ORDER BY
 CREATE INDEX IF NOT EXISTS idx_events_status_created ON events(status, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_tickets_purchase_date ON tickets(purchase_date);
@@ -16,5 +14,4 @@ CREATE INDEX IF NOT EXISTS idx_registrations_event ON registrations(event_id);
 -- Audit queries
 CREATE INDEX IF NOT EXISTS idx_audit_log_table_time ON audit_log(table_name, created_at DESC);
 
-COMMIT;
 

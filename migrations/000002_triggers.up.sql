@@ -1,5 +1,3 @@
-BEGIN;
-
 -- Updated_at helper
 CREATE OR REPLACE FUNCTION set_updated_at()
 RETURNS TRIGGER AS $$
@@ -229,5 +227,4 @@ CREATE TRIGGER trg_update_ticket_sales
 AFTER INSERT OR UPDATE OR DELETE ON tickets
 FOR EACH ROW EXECUTE FUNCTION update_ticket_sales();
 
-COMMIT;
 
