@@ -29,8 +29,6 @@ func NewRouter(deps Dependencies) *gin.Engine {
 	r := gin.New()
 	r.Use(gin.Recovery())
 
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
 	userRepo := postgres.NewUserRepo(deps.DB)
 	userProfileRepo := postgres.NewUserProfileRepo(deps.DB)
 	eventRepo := postgres.NewEventRepo(deps.DB)
@@ -61,6 +59,11 @@ func NewRouter(deps Dependencies) *gin.Engine {
 
 	api := r.Group("/api/v1")
 	{
+		api.GET("/swagger/*any", ginSwagger.WrapHandler(
+			swaggerFiles.Handler,
+			ginSwagger.URL("/api/v1/swagger/doc.json"),
+		))
+
 		api.GET("/users", userH.List)
 		api.POST("/users", userH.Create)
 		api.GET("/users/:id", userH.Get)

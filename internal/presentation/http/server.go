@@ -17,7 +17,8 @@ func NewServer(cfg config.HTTPConfig, db *sqlx.DB, log *zap.Logger) *http.Server
 	r := NewRouter(Dependencies{DB: db, Log: log})
 	r.Use(middleware.ContextFromHeaders())
 
-	r.GET("/healthz", func(c *gin.Context) {
+	api := r.Group("/api/v1")
+	api.GET("/healthz", func(c *gin.Context) {
 		type resp struct {
 			Status string `json:"status"`
 		}
