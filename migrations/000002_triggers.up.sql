@@ -28,9 +28,6 @@ BEGIN
     v_new := to_jsonb(NEW);
   END IF;
 
-  -- app.user_id and app.ip are optional; backend can set them per-connection:
-  --   SET LOCAL app.user_id = '123';
-  --   SET LOCAL app.ip = '1.2.3.4';
   v_user_id := NULLIF(current_setting('app.user_id', true), '')::UUID;
   v_ip := NULLIF(current_setting('app.ip', true), '');
 
